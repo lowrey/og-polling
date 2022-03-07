@@ -1,7 +1,7 @@
 {
-  "name": "og-poll",
+  "name": "og-polling",
   "version": "1.0.0",
-  "description": "",
+  "description": "React polling app",
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
