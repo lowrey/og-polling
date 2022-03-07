@@ -25,8 +25,6 @@ export function PresenterForm(props: any) {
   }, [active]);
   const activePollName = useMemo(() => activePoll?.pollName ?? '', [activePoll]);
   const chartData = useMemo(() => createChartData(polls, activePollName), [polls, activePollName]);
-  // console.log(username, pollName, points);
-  // console.log(polls, active);
   return (
     <div className="container">
       <div className="row">
