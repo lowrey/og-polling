@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
-// import { nanoid } from "nanoid";
 
 const SERVER_URL = "http://66.175.216.128:3089";
 
