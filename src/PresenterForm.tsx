@@ -1,12 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import { BarChart, createChartData } from "./BarChart";
 import { useSocket } from "./useSocket";
 
 export function PresenterForm(props: any) {
-  const [username, setUsername] = useState("");
-  const [pollName, setPollName] = useState("");
-  const [points, setPoints] = useState("");
+  const { search } = useLocation();
+  const queryParams = useMemo(() => new URLSearchParams(search), [search]);
+  const [username, setUsername] = useState(queryParams.get("name") ?? "");
+  const [pollName, setPollName] = useState(queryParams.get("pollName") ?? "");
+  const [points, setPoints] = useState(queryParams.get("points") ?? "");
   const { polls, active, vote, makeActive, resetAll } = useSocket({
     roomId: "polls"
   });
@@ -110,6 +113,7 @@ export function PresenterForm(props: any) {
                 });
               }}
               style={{ margin: "5px" }}
+              disabled={pollName === ""}
             >
               Activate
             </Button>
@@ -126,6 +130,7 @@ export function PresenterForm(props: any) {
                 });
               }}
               style={{ margin: "5px" }}
+              disabled={pollName === ""}
             >
               Show
             </Button>
@@ -142,6 +147,7 @@ export function PresenterForm(props: any) {
                 });
               }}
               style={{ margin: "5px" }}
+              disabled={pollName === ""}
             >
               Inactivate
             </Button>
