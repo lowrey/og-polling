@@ -1,10 +1,10 @@
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
+import express from 'express';
+import { createServer } from 'http';
+import cors from 'cors';
 
 const port = process.env.PORT || 3089;
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 app.use(cors());
 
 app.get('/*', (req, res) => {
