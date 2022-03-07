@@ -3,28 +3,6 @@ import io from "socket.io-client";
 
 const SERVER_URL = "http://66.175.216.128:3089";
 
-const useBeforeUnload = (value: any) => {
-  const handleBeforeunload = (e: any) => {
-    let returnValue;
-    if (typeof value === "function") {
-      returnValue = value(e);
-    } else {
-      returnValue = value;
-    }
-    if (returnValue) {
-      e.preventDefault();
-      e.returnValue = returnValue;
-    }
-    return returnValue;
-  };
-
-  useEffect(() => {
-    window.addEventListener("beforeunload", handleBeforeunload);
-    return () => window.removeEventListener("beforeunload", handleBeforeunload);
-    // eslint-disable-next-line
-  }, []);
-};
-
 export const useSocket = ({
   roomId,
 }: {
@@ -42,13 +20,6 @@ export const useSocket = ({
   const [active, setActive] = useState<
     { [pollName: string]: { status: string; timestamp: number; }; }
   >({});
-
-  // const [userId] = useLocalStorage({
-  //   key: "userId",
-  //   initialValue: nanoid(8)
-  // });
-  // const [username] = useLocalStorage({ key: "username" });
-
   const socketRef = useRef<any>();
 
   useEffect(() => {
@@ -87,10 +58,5 @@ export const useSocket = ({
     },
     []
   );
-
-  useBeforeUnload(() => {
-    // socketRef.current?.emit("user:leave", username);
-  });
-
   return { polls, active, vote, makeActive };
 };
