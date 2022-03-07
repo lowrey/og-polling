@@ -45,8 +45,6 @@ export const useSocket = ({ roomId }: { roomId: string }) => {
       value: string;
       username: string;
     }) => {
-      console.log("emit polls:vote", pollName, value);
-      console.log(socketRef.current);
       socketRef.current?.emit("polls:vote", { pollName, value, username });
       socketRef.current?.emit("polls:get");
     },
