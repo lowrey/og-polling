@@ -4,43 +4,84 @@ import { BarChart, createChartData } from "./BarChart";
 import { useSocket } from "./useSocket";
 
 export function PresenterForm(props: any) {
-  const [username, setUsername] = useState('');
-  const [pollName, setPollName] = useState('');
-  const [points, setPoints] = useState('');
+  const [username, setUsername] = useState("");
+  const [pollName, setPollName] = useState("");
+  const [points, setPoints] = useState("");
   const { polls, active, vote, makeActive, resetAll } = useSocket({
-    roomId: "polls",
+    roomId: "polls"
   });
-  const valueChange = useCallback((fn: (value: string) => void) => (e: any) => fn(e.target.value), []);
+  const valueChange = useCallback(
+    (fn: (value: string) => void) => (e: any) => fn(e.target.value),
+    []
+  );
   const handleUsernameChange = valueChange(setUsername);
   const handlePollnameChange = valueChange(setPollName);
   const handlePointsChange = valueChange(setPoints);
   const activePoll = useMemo(() => {
     let poll;
     for (const [key, value] of Object.entries(active)) {
-      if (value.status === 'active' || value.status === 'show') {
+      if (value.status === "active" || value.status === "show") {
         poll = { ...value, pollName: key };
       }
     }
     return poll;
   }, [active]);
-  const activePollName = useMemo(() => activePoll?.pollName ?? '', [activePoll]);
-  const chartData = useMemo(() => createChartData(polls, activePollName), [polls, activePollName]);
+  const activePollName = useMemo(() => activePoll?.pollName ?? "", [
+    activePoll
+  ]);
+  const chartData = useMemo(() => createChartData(polls, activePollName), [
+    polls,
+    activePollName
+  ]);
   return (
     <div className="container">
       <div className="row">
         <Form className="inputs col-md">
-          <Form.Group className="mb-3" controlId="username" onChange={handleUsernameChange}>
-            <Form.Control type="name" placeholder="Username" value={username} onChange={() => { return; }} />
+          <Form.Group
+            className="mb-3"
+            controlId="username"
+            onChange={handleUsernameChange}
+          >
+            <Form.Control
+              type="name"
+              placeholder="Username"
+              value={username}
+              onChange={() => {
+                return;
+              }}
+            />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="pollName" onChange={handlePollnameChange}>
-            <Form.Control type="name" placeholder="Poll name" value={pollName} onChange={() => { return; }} />
+          <Form.Group
+            className="mb-3"
+            controlId="pollName"
+            onChange={handlePollnameChange}
+          >
+            <Form.Control
+              type="name"
+              placeholder="Poll name"
+              value={pollName}
+              onChange={() => {
+                return;
+              }}
+            />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="points" onChange={handlePointsChange}>
+          <Form.Group
+            className="mb-3"
+            controlId="points"
+            onChange={handlePointsChange}
+          >
             <div>
               <Form.Label>Points:</Form.Label>
             </div>
             {[1, 2, 3, 5, 8, 13, 21].map((val) => (
-              <Form.Check inline type="radio" name="points" label={val} key={val} value={val} />
+              <Form.Check
+                inline
+                type="radio"
+                name="points"
+                label={val}
+                key={val}
+                value={val}
+              />
             ))}
           </Form.Group>
 
@@ -52,6 +93,7 @@ export function PresenterForm(props: any) {
                 vote({ pollName, value: points, username });
               }}
               style={{ margin: "5px" }}
+              disabled={activePollName === "" || username === ""}
             >
               Vote
             </Button>
@@ -60,8 +102,9 @@ export function PresenterForm(props: any) {
               type="button"
               onClick={(e: any) => {
                 makeActive({
-                  pollName, isActive: {
-                    status: 'active',
+                  pollName,
+                  isActive: {
+                    status: "active",
                     timestamp: Date.now()
                   }
                 });
@@ -75,8 +118,9 @@ export function PresenterForm(props: any) {
               type="button"
               onClick={(e: any) => {
                 makeActive({
-                  pollName, isActive: {
-                    status: 'show',
+                  pollName,
+                  isActive: {
+                    status: "show",
                     timestamp: Date.now()
                   }
                 });
@@ -90,8 +134,9 @@ export function PresenterForm(props: any) {
               type="button"
               onClick={(e: any) => {
                 makeActive({
-                  pollName, isActive: {
-                    status: 'inactive',
+                  pollName,
+                  isActive: {
+                    status: "inactive",
                     timestamp: Date.now()
                   }
                 });
@@ -104,7 +149,7 @@ export function PresenterForm(props: any) {
               variant="secondary"
               type="button"
               onClick={(e: any) => {
-                setPollName('');
+                setPollName("");
                 resetAll();
               }}
               style={{ margin: "5px" }}
@@ -114,11 +159,11 @@ export function PresenterForm(props: any) {
           </Form.Group>
         </Form>
       </div>
-      {chartData.datasets[0].data.length > 0 && activePollName !== '' &&
+      {chartData.datasets[0].data.length > 0 && activePollName !== "" && (
         <div className="row">
           <BarChart chartData={chartData} title={pollName} />
         </div>
-      }
+      )}
     </div>
   );
 }
