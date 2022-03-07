@@ -7,7 +7,7 @@ export function PresenterForm(props: any) {
   const [username, setUsername] = useState('');
   const [pollName, setPollName] = useState('');
   const [points, setPoints] = useState('');
-  const { polls, active, vote, makeActive } = useSocket({
+  const { polls, active, vote, makeActive, resetAll } = useSocket({
     roomId: "polls",
   });
   const valueChange = useCallback((fn: (value: string) => void) => (e: any) => fn(e.target.value), []);
@@ -105,6 +105,7 @@ export function PresenterForm(props: any) {
               type="button"
               onClick={(e: any) => {
                 setPollName('');
+                resetAll();
               }}
               style={{ margin: "5px" }}
             >

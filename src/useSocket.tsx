@@ -58,5 +58,10 @@ export const useSocket = ({
     },
     []
   );
-  return { polls, active, vote, makeActive };
+  const resetAll = useCallback(() => {
+      socketRef.current?.emit("polls:reset");
+    },
+    []
+  );
+  return { polls, active, vote, makeActive, resetAll };
 };
