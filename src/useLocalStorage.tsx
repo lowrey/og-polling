@@ -17,9 +17,6 @@ export const useLocalStorage = ({
     catch (e) {
       return initialValue;
     }
-    // console.log(item)
-    // console.log(JSON.parse(item ?? '{}'))
-    // return item ? JSON.parse(item ?? '{}') : initialValue;
   });
 
   useEffect(() => {
