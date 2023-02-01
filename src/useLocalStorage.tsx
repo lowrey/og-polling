@@ -8,7 +8,6 @@ export const useLocalStorage = ({
   initialValue?: string;
 }) => {
   const [value, setValue] = useState(() => {
-    console.log(key)
     const item = window.localStorage.getItem(key);
     let parse = initialValue;
     try {
